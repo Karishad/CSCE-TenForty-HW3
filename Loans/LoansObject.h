@@ -8,3 +8,31 @@
     File name: LoansObject.h
     Description:  Class definition for LoansObject.cpp
 */
+#include <iostream>
+#include <string>
+#include <ctime>
+using namespace std;
+
+class Loan
+{
+public:
+    Loan();
+    Loan(int loan, int book, int patron, time_t time, string status);
+    void setLoan_ID(int loan);
+    int getLoan_ID();
+    void setBook_ID(int book);
+    int getBook_ID();
+    void setPatron_ID(int patron);
+    int getPatron_ID();
+    void setDueDate(time_t time);
+    time_t getDueDate();
+    void getStatus(string Status);
+    string getStatus();
+
+private:
+    int Loan_ID;
+    int Book_ID; // Will be the Book.Library_ID
+    int Patron_ID;
+    time_t DueDate; // Time and date 2 weeks
+    string Status;  // Overdue/Normal
+};
