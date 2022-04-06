@@ -24,6 +24,6 @@ using namespace std;
 
 int main()
 {
-    
+    Book newBook;
     return 0;
 }
