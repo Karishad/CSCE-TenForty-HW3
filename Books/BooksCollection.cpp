@@ -10,3 +10,9 @@
 */
 
 #include "BooksCollection.h"
+#include "BooksObject.h"
+
+Books::Books()
+{
+    vector<Book> BookCollection;
+};
