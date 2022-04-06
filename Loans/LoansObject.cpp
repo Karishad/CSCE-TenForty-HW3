@@ -9,3 +9,14 @@
     Description:  Driver code for Loan Object
 */
 #include "LoansObject.h"
+
+Loan::Loan()
+{
+    Loan_ID = 0;
+    Book_ID = 0;
+    Patron_ID = 0;
+    time_t DueIn2Weeks;
+    time(&DueIn2Weeks); // Sets DueIn2Weeks to current time
+    DueDate = DueIn2Weeks;
+    Status = "";
+}
