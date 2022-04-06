@@ -1,5 +1,13 @@
-// Kieron Yin
-// Main.cpp
+/*
+    CSCE 1040 Homework 3
+    Section: 001
+    Name: Kieron Yin
+    UNT Email: kieronyin@my.unt.edu
+    Date submitted: xx/xx/2022
+
+    File name: main.cpp
+    Description:  Driver code for the project
+*/
 #include <iostream>
 
 // Book Includes
@@ -16,6 +24,6 @@ using namespace std;
 
 int main()
 {
-    
+
     return 0;
 }
