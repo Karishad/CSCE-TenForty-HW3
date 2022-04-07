@@ -7,4 +7,5 @@
 
     File name: PatronsObject.h
     Description:  Class definition for PatronsObject.cpp
-*/
+*/#include <string>
+
