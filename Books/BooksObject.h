@@ -47,4 +47,4 @@ private:
     string Status;
 };
 
-#endif BOOKSOBJECT_H
+#endif

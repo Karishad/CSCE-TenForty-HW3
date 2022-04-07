@@ -12,4 +12,4 @@
     Description:  Class definition for LoansCollection.cpp
 */
 
-#endif LOANSCOLLECTION_H
+#endif

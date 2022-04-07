@@ -12,4 +12,4 @@
     Description:  Class definition for PatronsCollection.cpp
 */
 
-#endif PATRONSCOLLECTION_H
+#endif

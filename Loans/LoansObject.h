@@ -43,4 +43,4 @@ private:
     string Status;  // Overdue/Normal
 };
 
-#endif LOANSOBJECT_H
+#endif

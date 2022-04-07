@@ -36,4 +36,4 @@ private:
     Book findBook(int ID);
 };
 
-#endif BOOKSCOLLECTION_H
+#endif
