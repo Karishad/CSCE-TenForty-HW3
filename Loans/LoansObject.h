@@ -1,3 +1,6 @@
+#ifndef LOANSOBJECT_H
+#define LOANSOBJECT_H
+
 /*
     CSCE 1040 Homework 3
     Section: 001
@@ -39,3 +42,5 @@ private:
     time_t DueDate; // Time and date 2 weeks
     string Status;  // Overdue/Normal
 };
+
+#endif LOANSOBJECT_H

@@ -5,5 +5,6 @@
 # Date submitted: xx/xx/2022
 
 # File name: makefile
-# Description:  Driver code for the project
+# Description:  It's a makefile for the project 
 
+	

@@ -1,3 +1,6 @@
+#ifndef BOOKSOBJECT_H
+#define BOOKSOBJECT_H
+
 /*
     CSCE 1040 Homework 3
     Section: 001
@@ -43,3 +46,5 @@ private:
     float Cost;
     string Status;
 };
+
+#endif BOOKSOBJECT_H

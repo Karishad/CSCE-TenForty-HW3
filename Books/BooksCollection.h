@@ -1,3 +1,6 @@
+#ifndef BOOKSCOLLECTION_H
+#define BOOKSCOLLECTION_H
+
 /*
     CSCE 1040 Homework 3
     Section: 001
@@ -32,3 +35,5 @@ private:
     Book findBook(int ISBN);
     Book findBook(int ID);
 };
+
+#endif BOOKSCOLLECTION_H
