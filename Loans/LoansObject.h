@@ -7,6 +7,9 @@
 
     File name: LoansObject.h
     Description:  Class definition for LoansObject.cpp
+    Class Parameters
+        int loan, int book, int patron, time_t time, string status
+    Sets/Gets for each parameter
 */
 #include <iostream>
 #include <string>
@@ -26,7 +29,7 @@ public:
     int getPatron_ID();
     void setDueDate(time_t time);
     time_t getDueDate();
-    void getStatus(string Status);
+    void getStatus(string status);
     string getStatus();
 
 private:
