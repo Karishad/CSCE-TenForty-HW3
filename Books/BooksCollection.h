@@ -30,10 +30,10 @@ public:
 
 private:
     vector<Book> BookCollection;
-    Book findBook(string title);
-    Book findBook(string author);
-    Book findBook(int ISBN);
-    Book findBook(int ID);
+    Book findBookTitle(string title);
+    Book findBookAuthor(string author);
+    Book findBookISBN(int ISBN);
+    Book findBookID(int ID);
 };
 
 #endif

@@ -7,4 +7,15 @@
 # File name: makefile
 # Description:  It's a makefile for the project 
 
-	
+#Compiler definition
+CC = g++
+
+HW3: main.o
+	$(CC) -o HW3 main.o
+
+main.o: main.cpp
+	$(CC) -c main.cpp
+
+clean:
+	@echo "Removing Files..."
+	rm -rf HW3 *.o
