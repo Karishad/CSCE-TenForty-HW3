@@ -10,11 +10,20 @@
 #Compiler definition
 CC = g++
 
-HW3: main.o
-	$(CC) -o HW3 main.o
+# Setting up Sources
+BooksSource = $(wildcard Books/*.cpp)
+BooksObject = $(notdir $(BooksSource:.cpp=.o))
 
+HW3: main.o books.o
+	$(CC) -o HW3 main.o books.o
 main.o: main.cpp
 	$(CC) -c main.cpp
+books.o: $(BooksSource)
+	$(CC) -c $(BooksSource)
+
+bookhelp:
+	@echo "BookDirectory: $(BooksSource)"
+	@echo "ObjectCreation: $(BooksObject)"
 
 clean:
 	@echo "Removing Files..."
