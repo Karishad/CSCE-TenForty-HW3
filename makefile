@@ -11,19 +11,25 @@
 CC = g++
 
 # Setting up Sources
-BooksSource = $(wildcard Books/*.cpp)
-BooksObject = $(notdir $(BooksSource:.cpp=.o))
+# Setting files to one directory for testing
+#BooksSource = $(wildcard Books/*.cpp)
+#BooksObject = $(notdir $(BooksSource:.cpp=.o))
+#LoansSource = $(wildcard Loans/*.cpp)
+#LoansObject = $(notdir $(BooksSource:.cpp=.o))
 
-HW3: main.o books.o
-	$(CC) -o HW3 main.o books.o
+HW3: main.o books.o loans.o
+	$(CC) -o HW3 main.o books.o loans.o
 main.o: main.cpp
 	$(CC) -c main.cpp
-books.o: $(BooksSource)
-	$(CC) -c $(BooksSource)
+#books.o: $(BooksSource)
+#	$(CC) -c $(BooksSource)
+#loans.o: $(LoansSource)
+#	$(CC) -c $(LoansSource)
 
-bookhelp:
-	@echo "BookDirectory: $(BooksSource)"
-	@echo "ObjectCreation: $(BooksObject)"
+#bookhelp:
+#	@echo "BookDirectory: $(BooksSource)"
+#	@echo "LoansDirectory $(LoansSource)"
+#	@echo "ObjectCreation: $(BooksObject) $(LoansObject)"
 
 clean:
 	@echo "Removing Files..."
