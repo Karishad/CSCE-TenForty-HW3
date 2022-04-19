@@ -22,6 +22,8 @@ class Books
 {
 public:
     Books();
+    bool findBookID(int ID);  // Will search to see if the book exists in the database
+    Book FoundBookID(int ID); // Will only execute if findBookID returns true
     void addBook(Book newBook);
     void editBook(Book newBook);
     void deleteBook(Book newBook);
@@ -30,10 +32,11 @@ public:
 
 private:
     vector<Book> BookCollection;
-    Book findBookTitle(string title);
-    Book findBookAuthor(string author);
-    Book findBookISBN(int ISBN);
-    Book findBookID(int ID);
+    // These will be commented out unless needed
+    // assuming that what we will have is the book ID's
+    // Book findBookTitle(string title);
+    // Book findBookAuthor(string author);
+    // Book findBookISBN(int ISBN);
 };
 
 #endif

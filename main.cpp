@@ -25,7 +25,13 @@ using namespace std;
 int main()
 {
     cout << "Hello World!" << endl;
+    // Functions as library database
+    Books LibraryCollection;
 
-    
+    // Creating the application loop
+    while (true)
+    {
+        break;
+    }
     return 0;
 }

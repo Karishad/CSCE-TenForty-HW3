@@ -16,3 +16,17 @@ Books::Books()
 {
     vector<Book> BookCollection;
 };
+bool Books::findBookID(int ID)
+{
+    // Error checking if BookCollection is empty to prevent errors
+    if (BookCollection.empty() == true)
+        return false;
+    for (int i = 0; i < BookCollection.size(); i++)
+    {
+        if (BookCollection.at(i).getID() == ID)
+        {
+            return true;
+        }
+    }
+    return false;
+}
