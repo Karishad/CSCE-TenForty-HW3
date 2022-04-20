@@ -54,3 +54,19 @@ void Books::printOneBook(int BookPosition)
     cout << "ID: " << BookCollection.at(BookPosition).getID() << endl;
     cout << "Cost: $" << BookCollection.at(BookPosition).getCost() << endl;
 }
+void Books::printAllBooks()
+{
+    if (BookCollection.empty() == true)
+        cout << "There are no books registered." << endl;
+    else
+    {
+        for (int i = 0; i < BookCollection.size(); i++)
+        {
+            cout << "Author: " << BookCollection.at(i).getAuthor() << endl;
+            cout << "Title: " << BookCollection.at(i).getTitle() << endl;
+            cout << "ISBN: " << BookCollection.at(i).getISBN() << endl;
+            cout << "ID: " << BookCollection.at(i).getID() << endl;
+            cout << "Cost: $" << BookCollection.at(i).getCost() << endl;
+        }
+    }
+}
