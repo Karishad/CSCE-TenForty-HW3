@@ -19,6 +19,10 @@
 // Patron Includes
 #include "Loans/LoansCollection.h"
 #include "Loans/LoansObject.h"
+// DataFiles Includes
+#include "DataFiles/Books.csv"
+#include "DataFiles/Loans.csv"
+#include "DataFiles/Patrons.csv"
 
 using namespace std;
 
