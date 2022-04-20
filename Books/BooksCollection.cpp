@@ -67,6 +67,7 @@ void Books::printAllBooks()
             cout << "ISBN: " << BookCollection.at(i).getISBN() << endl;
             cout << "ID: " << BookCollection.at(i).getID() << endl;
             cout << "Cost: $" << BookCollection.at(i).getCost() << endl;
+            cout << endl;
         }
     }
 }

@@ -24,9 +24,17 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    // cout << "Hello World!" << endl; -> "Hello World" indeed my friend
     // Functions as library database
     Books LibraryCollection;
+    // LibraryCollection.printAllBooks();
+    // Book bookToAdd("Jordan Brexler", "I am Grandpa Jordan", 123456, 1, 19.87, "In");
+    // cout << "Author: " << bookToAdd.getAuthor() << endl;
+    // LibraryCollection.addBook(bookToAdd);
+    // LibraryCollection.printAllBooks();
+    // Book bookToAdd2("Valibrex", "I am wearing a hoodie", 354256, 2, 0.59, "In");
+    // LibraryCollection.addBook(bookToAdd2);
+    // LibraryCollection.printAllBooks();
 
     // Creating the application loop
     while (true)
