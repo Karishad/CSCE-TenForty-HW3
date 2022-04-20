@@ -22,6 +22,7 @@ class Books
 {
 public:
     Books();
+    int getSize();
     int findBookID(int ID);             // Will search to see if the book exists in the database: If found return position ID, else return -1
     Book FoundBookID(int BookPosition); // Run findBookID -> DO NOT RUN IF findBookID == -1
     void addBook(Book newBook);

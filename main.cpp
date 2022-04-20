@@ -32,7 +32,6 @@ using namespace std;
 void ReadFromBooksCSV(Books &Collection)
 {
     string fileName = "DataFiles/Books.csv";
-    char delimiter = ',';
     // Vars to read in things
     string toReadLines;
     string author;
@@ -91,6 +90,28 @@ void ReadFromBooksCSV(Books &Collection)
 }
 void WriteToBooksCSV(Books &Collection)
 {
+    string fileName = "DataFiles/Books.csv";
+    // Vars to read in things
+    Book tempBook;
+    ofstream file(fileName);
+    // Error handling
+    if (!file.is_open())
+    {
+        cout << "Error, Books.csv file failed to open...closing application." << endl;
+        exit(EXIT_FAILURE);
+    }
+    while (Collection.getSize() > 0)
+    {
+        tempBook = Collection.FoundBookID(0);
+        file << tempBook.getAuthor() << ",";
+        file << tempBook.getTitle() << ",";
+        file << tempBook.getISBN() << ",";
+        file << tempBook.getID() << ",";
+        file << tempBook.getCost() << ",";
+        file << tempBook.getStatus() << ",";
+        file << endl;
+        Collection.deleteBook(0);
+    }
 }
 
 int main()
@@ -106,16 +127,13 @@ int main()
     // Loans LoanCollection;
     // ReadFromLoanCollection(LoanCollection);
 
-    // Book bookToAdd2("Valibrex", "I am wearing a hoodie", 354256, 2, 0.59, "In");
-    // LibraryCollection.addBook(bookToAdd2);
-    // LibraryCollection.printAllBooks();
-
     // Creating the application loop
     while (true)
     {
         break;
     }
-    // WriteToBooksCSV(LibraryCollection);
+    // We will pass in the reference simply as a way to free space when writing to the CSV's
+    WriteToBooksCSV(LibraryCollection);
     // WriteToPatronsCSV(PatronCollection);
     // WriteToLoansCSV(LoanCollection);
     return 0;

@@ -16,6 +16,10 @@ Books::Books()
 {
     vector<Book> BookCollection;
 };
+int Books::getSize()
+{
+    return BookCollection.size();
+}
 int Books::findBookID(int ID)
 {
     // Error checking if BookCollection is empty to prevent errors
