@@ -9,6 +9,9 @@
     Description:  Driver code for the project
 */
 #include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
 
 // Book Includes
 #include "Books/BooksCollection.h"
@@ -20,18 +23,34 @@
 #include "Loans/LoansCollection.h"
 #include "Loans/LoansObject.h"
 // DataFiles Includes
-#include "DataFiles/Books.csv"
-#include "DataFiles/Loans.csv"
-#include "DataFiles/Patrons.csv"
+#include "DataFiles/Books.txt"
+#include "DataFiles/Loans.txt"
+#include "DataFiles/Patrons.txt"
 
 using namespace std;
+
+void ReadFromBooksCSV(Books Collection)
+{
+    string fileName = "DataFiles/Books.csv";
+    char delimiter = ',';
+    // Vars to read in things
+    string toReadStrings;
+    int toReadInts;
+    float toReadFloats;
+    ifstream file(fileName);
+    // Error handling
+    if (!file.is_open())
+    {
+        cout << "Error, Books.csv file failed to open...closing application." << endl;
+        exit(EXIT_FAILURE);
+    }
+}
 
 int main()
 {
     // cout << "Hello World!" << endl; -> "Hello World" indeed my friend
     // Functions as library database
     Books LibraryCollection;
-    // LibraryCollection.printAllBooks();
     // Book bookToAdd("Jordan Brexler", "I am Grandpa Jordan", 123456, 1, 19.87, "In");
     // cout << "Author: " << bookToAdd.getAuthor() << endl;
     // LibraryCollection.addBook(bookToAdd);
