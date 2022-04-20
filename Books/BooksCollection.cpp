@@ -16,17 +16,41 @@ Books::Books()
 {
     vector<Book> BookCollection;
 };
-bool Books::findBookID(int ID)
+int Books::findBookID(int ID)
 {
     // Error checking if BookCollection is empty to prevent errors
     if (BookCollection.empty() == true)
-        return false;
+        return -1;
     for (int i = 0; i < BookCollection.size(); i++)
     {
         if (BookCollection.at(i).getID() == ID)
         {
-            return true;
+            return i;
         }
     }
-    return false;
+    return -1;
+}
+Book Books::FoundBookID(int BookPosition)
+{
+    return BookCollection.at(BookPosition);
+}
+void Books::addBook(Book newBook)
+{
+    BookCollection.push_back(newBook);
+}
+void Books::editBook(int BookPosition, Book newBook)
+{
+    BookCollection.at(BookPosition) = newBook;
+}
+void Books::deleteBook(int BookPosition)
+{
+    BookCollection.erase(BookCollection.begin() + BookPosition);
+}
+void Books::printOneBook(int BookPosition)
+{
+    cout << "Author: " << BookCollection.at(BookPosition).getAuthor() << endl;
+    cout << "Title: " << BookCollection.at(BookPosition).getTitle() << endl;
+    cout << "ISBN: " << BookCollection.at(BookPosition).getISBN() << endl;
+    cout << "ID: " << BookCollection.at(BookPosition).getID() << endl;
+    cout << "Cost: $" << BookCollection.at(BookPosition).getCost() << endl;
 }

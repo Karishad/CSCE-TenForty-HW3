@@ -22,12 +22,12 @@ class Books
 {
 public:
     Books();
-    bool findBookID(int ID);  // Will search to see if the book exists in the database
-    Book FoundBookID(int ID); // Will only execute if findBookID returns true
+    int findBookID(int ID);             // Will search to see if the book exists in the database: If found return position ID, else return -1
+    Book FoundBookID(int BookPosition); // Run findBookID -> DO NOT RUN IF findBookID == -1
     void addBook(Book newBook);
-    void editBook(Book newBook);
-    void deleteBook(Book newBook);
-    void printOneBook(Book newBook);
+    void editBook(int BookPosition, Book newBook); // Run findBookID -> DO NOT RUN IF findBookID == -1
+    void deleteBook(int BookPosition);             // Run findBookID -> DO NOT RUN IF findBookID == -1
+    void printOneBook(int BookPosition);           // Run findBookID -> DO NOT RUN IF findBookID == -1
     void printAllBooks();
 
 private:
