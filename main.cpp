@@ -22,21 +22,28 @@
 // Patron Includes
 #include "Loans/LoansCollection.h"
 #include "Loans/LoansObject.h"
-// DataFiles Includes
+// DataFiles Includes -> Learned that this causes an error if included here and called from fstreams, so don't do that
 // #include "DataFiles/Books.csv"
-#include "DataFiles/Loans.csv"
-#include "DataFiles/Patrons.csv"
+// #include "DataFiles/Loans.csv"
+// #include "DataFiles/Patrons.csv"
 
 using namespace std;
 
-void ReadFromBooksCSV(Books Collection)
+void ReadFromBooksCSV(Books &Collection)
 {
     string fileName = "DataFiles/Books.csv";
     char delimiter = ',';
     // Vars to read in things
-    string toReadStrings;
-    int toReadInts;
-    float toReadFloats;
+    string toReadLines;
+    string author;
+    string title;
+    string temp; // Used to read in the ints and floats before type conversions
+    int isbn;
+    int id;
+    float cost;
+    string status;
+    int posOfDelim = 0;
+    Book tempBook;
     ifstream file(fileName);
     // Error handling
     if (!file.is_open())
@@ -44,6 +51,46 @@ void ReadFromBooksCSV(Books Collection)
         cout << "Error, Books.csv file failed to open...closing application." << endl;
         exit(EXIT_FAILURE);
     }
+    while (getline(file, toReadLines))
+    {
+        // For the author
+        posOfDelim = toReadLines.find(',');
+        author = toReadLines.substr(0, posOfDelim);
+        tempBook.setAuthor(author);
+        // For the title
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        title = toReadLines.substr(0, posOfDelim);
+        tempBook.setTitle(title);
+        // For the isbn
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        isbn = stoi(temp);
+        tempBook.setISBN(isbn);
+        // For the id
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        id = stoi(temp);
+        tempBook.setID(id);
+        // For the cost
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        cost = stof(temp);
+        tempBook.setCost(cost);
+        // For the status
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        status = toReadLines.substr(0, posOfDelim);
+        tempBook.setStatus(status);
+        Collection.addBook(tempBook);
+        posOfDelim = 0;
+    }
+}
+void WriteToBooksCSV(Books &Collection)
+{
 }
 
 int main()
@@ -51,10 +98,14 @@ int main()
     // cout << "Hello World!" << endl; -> "Hello World" indeed my friend
     // Functions as library database
     Books LibraryCollection;
-    // Book bookToAdd("Jordan Brexler", "I am Grandpa Jordan", 123456, 1, 19.87, "In");
-    // cout << "Author: " << bookToAdd.getAuthor() << endl;
-    // LibraryCollection.addBook(bookToAdd);
-    // LibraryCollection.printAllBooks();
+    // Functions to read in the library database from the Books.csv file
+    ReadFromBooksCSV(LibraryCollection);
+    LibraryCollection.printAllBooks();
+    // Patrons PatronCollection;
+    // ReadFromPatronsCSV(PatronCollection);
+    // Loans LoanCollection;
+    // ReadFromLoanCollection(LoanCollection);
+
     // Book bookToAdd2("Valibrex", "I am wearing a hoodie", 354256, 2, 0.59, "In");
     // LibraryCollection.addBook(bookToAdd2);
     // LibraryCollection.printAllBooks();
@@ -64,5 +115,8 @@ int main()
     {
         break;
     }
+    // WriteToBooksCSV(LibraryCollection);
+    // WriteToPatronsCSV(PatronCollection);
+    // WriteToLoansCSV(LoanCollection);
     return 0;
 }
