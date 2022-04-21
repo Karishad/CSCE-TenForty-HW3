@@ -12,4 +12,20 @@
     Description:  Class definition for LoansCollection.cpp
 */
 
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+#include "LoansObject.h"
+
+class Loans
+{
+public:
+    Loans();
+
+private:
+    vector<Loan> LoanCollection;
+};
+
 #endif

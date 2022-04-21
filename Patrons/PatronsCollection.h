@@ -22,6 +22,14 @@ class Patrons
 {
 public:
     Patrons();
+    int getSize();
+    int findPatronID(int ID);                 // Will search to see if the patron exists in the database: If found return position ID, else return -1
+    Patron FoundPatronID(int PatronPosition); // Run findPatronID -> DO NOT RUN IF findPatronID == -1
+    void addPatron(Patron newPatron);
+    void editPatron(int PatronPosition, Patron newPatron); // Run findPatronID -> DO NOT RUN IF findPatronID == -1
+    void deletePatron(int PatronPosition);                 // Run findPatronID -> DO NOT RUN IF findPatronID == -1
+    void printOnePatron(int PatronPosition);               // Run findPatronID -> DO NOT RUN IF findPatronID == -1
+    void printAllPatrons();
 
 private:
     vector<Patron> PatronCollection;
