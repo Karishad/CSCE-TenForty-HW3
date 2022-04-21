@@ -57,3 +57,9 @@ int Patron::getBooks()
 {
     return Num_Books_Out;
 }
+void Patron::payFines(float amount)
+{
+    if (amount > Fines)
+        Fines = 0;
+    Fines -= amount;
+}

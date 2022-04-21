@@ -11,5 +11,20 @@
     File name: PatronsCollection.h
     Description:  Class definition for PatronsCollection.cpp
 */
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+#include "PatronsObject.h"
+
+class Patrons
+{
+public:
+    Patrons();
+
+private:
+    vector<Patron> PatronCollection;
+};
 
 #endif

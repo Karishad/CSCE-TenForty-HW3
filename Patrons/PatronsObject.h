@@ -32,12 +32,16 @@ public:
     float getFines();
     void setBooks(int books);
     int getBooks();
+    // void checkOutABook(int bookID); // Only can checkout if bookStatus is In
+    // void checkInABook(int bookID);  // Only can checkin if bookStatus is Out
+    void payFines(float amount);
 
 private:
     string Name;
     int ID;
     float Fines;
     int Num_Books_Out; // This number cannot exceed 6
+    // vector<pair<int, int>> BooksCheckedOut; // BookID, DueDate
 };
 
 #endif
