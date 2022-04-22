@@ -277,7 +277,6 @@ int main()
     Books LibraryCollection;
     // Functions to read in the library database from the Books.csv file
     ReadFromBooksCSV(LibraryCollection);
-    // LibraryCollection.printAllBooks();
     Patrons PatronCollection;
     ReadFromPatronsCSV(PatronCollection);
     Loans LoanCollection;
@@ -288,6 +287,8 @@ int main()
         Key:
         b - adds new book
         p - adds new patron
+        br - removes a book
+        pr - removes a patron
         out - checks out a book
         in - checks in a book
         fines - to pay fines
@@ -307,6 +308,7 @@ int main()
         // Display message
         cout << "\nWelcome to the library interface, enter the following keys to continue..." << endl;
         cout << "Enter 'b' to add a book.\nEnter 'p' to add a new patron." << endl;
+        cout << "Enter 'br' to remove a book.\nEnter 'pr' to remove a patron." << endl;
         cout << "Enter 'out' to check out a book.\nEnter 'in' to check in a book." << endl;
         cout << "Enter 'fine' to pay a fine.\nEnter 'over' to print a list of all overdue books." << endl;
         cout << "Enter 'q' to quit." << endl;
@@ -319,10 +321,11 @@ int main()
             tempFloat = 0.0;
             cout << "\nYou have decided to add a book." << endl;
             cout << "Enter the author of the book." << endl;
-            cin >> tempString;
+            cin.ignore();
+            getline(cin, tempString);
             tempBook.setAuthor(tempString);
             cout << "Enter the title of the book." << endl;
-            cin >> tempString;
+            getline(cin, tempString);
             tempBook.setTitle(tempString);
             cout << "Enter the ISBN of the book." << endl;
             cin >> tempInt;
@@ -354,7 +357,8 @@ int main()
             tempFloat = 0.0;
             cout << "\nYou have decided to add a patron." << endl;
             cout << "Enter the name of the patron." << endl;
-            cin >> tempString;
+            cin.ignore();
+            getline(cin, tempString);
             tempPatron.setName(tempString);
             if (PatronCollection.getSize() == 0)
             {
@@ -369,9 +373,50 @@ int main()
             tempPatron.setBooks(0);
             PatronCollection.addPatron(tempPatron);
         }
+        else if (userInput == "br")
+        {
+            tempInt = 0;
+            cout << "\nYou have decided to remove a book." << endl;
+            cout << "Here is the current library:" << endl;
+            LibraryCollection.printAllBooks();
+            cout << "Enter the book ID to remove." << endl;
+            cin >> tempInt;
+            int bookPosition = LibraryCollection.findBookID(tempInt);
+            if (bookPosition == -1)
+            {
+                cout << "This book does not exist." << endl;
+            }
+            else
+            {
+                cout << LibraryCollection.FoundBookID(bookPosition).getTitle() << " has been removed." << endl;
+                LibraryCollection.deleteBook(bookPosition);
+            }
+        }
+        else if (userInput == "pr")
+        {
+            tempInt = 0;
+            cout << "\nYou have decided to remove a patron." << endl;
+            cout << "Here is the current patrons:" << endl;
+            PatronCollection.printAllPatrons();
+            cout << "Enter the patron ID to remove." << endl;
+            cin >> tempInt;
+            int patronPosition = PatronCollection.findPatronID(tempInt);
+            if (patronPosition == -1)
+            {
+                cout << "This patron does not exist." << endl;
+            }
+            else
+            {
+                cout << PatronCollection.FoundPatronID(patronPosition).getName() << " has been removed." << endl;
+                PatronCollection.deletePatron(patronPosition);
+            }
+        }
         else if (userInput == "out")
         {
             cout << "\nYou have decided to check out a book." << endl;
+            cout << "Here is the current library:" << endl;
+            LibraryCollection.printAllBooks();
+            cout << "Enter the patron ID that would like to check out a book." << endl;
         }
         else if (userInput == "in")
         {
@@ -390,7 +435,7 @@ int main()
             cout << "\nYou have entered an invalid input, please try again..." << endl;
         }
 
-        // break;
+        break;
     }
     // We will pass in the reference simply as a way to free space when writing to the CSV's
     WriteToBooksCSV(LibraryCollection);
