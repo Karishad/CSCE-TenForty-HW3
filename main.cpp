@@ -425,6 +425,7 @@ int main()
             tempInt2 = 0;
             int tempPatronPosition = 0;
             int tempBookPosition = 0;
+            int tempLoanID;
             cout << "\nYou have decided to check out a book." << endl;
             cout << "Here is the list of Patrons." << endl;
             PatronCollection.printAllPatrons();
@@ -461,12 +462,10 @@ int main()
             if (LoanCollection.getSize() == 0)
             {
                 // Here there are no books checked out, can create a new loan
-                int tempLoanID = 0; // This will be the first loan
+                tempLoanID = 0; // This will be the first loan
             }
             else
-            {
-                int tempPosition = LoanCollection.FoundLoanID(LoanCollection.getSize() - 1).getLoan_ID() + 1
-            }
+                tempLoanID = LoanCollection.FoundLoanID(LoanCollection.getSize() - 1).getLoan_ID() + 1;
             time_t duedate;
             time(&duedate);    // Gets current time
             duedate += 864000; // Sets duedate for exactly 10 days from now
@@ -491,7 +490,38 @@ int main()
         }
         else if (userInput == "in")
         {
+            tempInt = 0;
+            tempInt2 = 0;
             cout << "\nYou have decided to check in a book." << endl;
+            cout << "Here is the list of patrons." << endl;
+            PatronCollection.printAllPatrons();
+            cout << "Enter the patron ID that would like to check in a book." << endl;
+            cin >> tempInt;
+            // Error checking
+            if (PatronCollection.findPatronID(tempInt) == -1)
+            {
+                cout << "This is not a valid patron..." << endl;
+                continue;
+            }
+            // This will contain the patron position
+            int patronPosition;
+            patronPosition = PatronCollection.findPatronID(tempInt);
+            // More error checking
+            if (PatronCollection.FoundPatronID(patronPosition).getBooks() == 0)
+            {
+                cout << "This patron has no books checked out..." << endl;
+                continue;
+            }
+            // Continue work here
+            int bookIDToGrab;
+            vector<Book> BooksOfPatron;
+            for (int i = 0; i < LoanCollection.getSize(); i++)
+            {
+                if (LoanCollection.FoundLoanID(i).getPatron_ID() == tempInt)
+                {
+                    cout << "I found one" << endl;
+                }
+            }
         }
         else if (userInput == "fine")
         {
