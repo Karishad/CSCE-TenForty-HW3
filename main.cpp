@@ -293,14 +293,104 @@ int main()
         fines - to pay fines
         over - print list of overdue books
         q - quit
+        repeat if invalid input
     */
     // Creating the application loop
+    Book tempBook;
+    Patron tempPatron;
+    Loan tempLoan;
+    string tempString;
+    int tempInt;
+    float tempFloat;
     while (userInput != "q")
     {
-        cout << "Welcome to the library interface, enter the following keys to continue..." << endl;
-        cout << "Enter 'b' or 'book' to add a book.\nEnter 'p' or 'patron' to add a new patron." << endl;
+        // Display message
+        cout << "\nWelcome to the library interface, enter the following keys to continue..." << endl;
+        cout << "Enter 'b' to add a book.\nEnter 'p' to add a new patron." << endl;
+        cout << "Enter 'out' to check out a book.\nEnter 'in' to check in a book." << endl;
+        cout << "Enter 'fine' to pay a fine.\nEnter 'over' to print a list of all overdue books." << endl;
+        cout << "Enter 'q' to quit." << endl;
+        cin >> userInput;
+        cout << "\nYou have entered: " << userInput << endl;
+        if (userInput == "b")
+        {
+            tempString = "";
+            tempInt = 0;
+            tempFloat = 0.0;
+            cout << "\nYou have decided to add a book." << endl;
+            cout << "Enter the author of the book." << endl;
+            cin >> tempString;
+            tempBook.setAuthor(tempString);
+            cout << "Enter the title of the book." << endl;
+            cin >> tempString;
+            tempBook.setTitle(tempString);
+            cout << "Enter the ISBN of the book." << endl;
+            cin >> tempInt;
+            tempBook.setISBN(tempInt);
+            // In case there are no books present
+            if (LibraryCollection.getSize() == 0)
+            {
+                tempBook.setID(0);
+            }
+            else
+            {
+                // BookID will be the ID of the last book in the library collection + 1
+                tempInt = LibraryCollection.FoundBookID(LibraryCollection.getSize() - 1).getID() + 1;
+                tempBook.setID(tempInt);
+            }
+            cout << "Enter the cost of the book." << endl;
+            cin >> tempFloat;
+            tempBook.setCost(tempFloat);
+            tempBook.setStatus("In");
+            LibraryCollection.addBook(tempBook);
+            // Testing
+            // cout << "\nBook Information:" << endl;
+            // cout << tempBook.getAuthor() << tempBook.getTitle() << tempBook.getISBN() << tempBook.getID() << tempBook.getCost() << tempBook.getStatus();
+        }
+        else if (userInput == "p")
+        {
+            tempString = "";
+            tempInt = 0;
+            tempFloat = 0.0;
+            cout << "\nYou have decided to add a patron." << endl;
+            cout << "Enter the name of the patron." << endl;
+            cin >> tempString;
+            tempPatron.setName(tempString);
+            if (PatronCollection.getSize() == 0)
+            {
+                tempPatron.setID(0);
+            }
+            else
+            {
+                tempInt = PatronCollection.FoundPatronID(PatronCollection.getSize() - 1).getID() + 1;
+                tempPatron.setID(tempInt);
+            }
+            tempPatron.setFines(0.0);
+            tempPatron.setBooks(0);
+            PatronCollection.addPatron(tempPatron);
+        }
+        else if (userInput == "out")
+        {
+            cout << "\nYou have decided to check out a book." << endl;
+        }
+        else if (userInput == "in")
+        {
+            cout << "\nYou have decided to check in a book." << endl;
+        }
+        else if (userInput == "fine")
+        {
+            cout << "\nYou have decided to pay a fine." << endl;
+        }
+        else if (userInput == "over")
+        {
+            cout << "\nYou have decided to print a list of all overdue books." << endl;
+        }
+        else if (userInput != "q")
+        {
+            cout << "\nYou have entered an invalid input, please try again..." << endl;
+        }
 
-        break;
+        // break;
     }
     // We will pass in the reference simply as a way to free space when writing to the CSV's
     WriteToBooksCSV(LibraryCollection);
