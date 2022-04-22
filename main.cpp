@@ -462,25 +462,32 @@ int main()
             {
                 // Here there are no books checked out, can create a new loan
                 int tempLoanID = 0; // This will be the first loan
-                time_t duedate;
-                time(&duedate);    // Gets current time
-                duedate += 864000; // Sets duedate for exactly 10 days from now
-                tempLoan.setLoan_ID(tempLoanID);
-                tempLoan.setBook_ID(tempInt2);
-                tempLoan.setPatron_ID(tempInt);
-                tempLoan.setDueDate(duedate);
-                tempLoan.setStatus("Normal");
-                tempLoan.setRecheck("False");
-                // Adds to the amount the patron has checked out
-                int tempBookNum = 0;
-                tempBookNum = PatronCollection.FoundPatronID(tempPatronPosition).getBooks() + 1;
-                PatronCollection.FoundPatronID(tempPatronPosition).setBooks(tempBookNum);
-                // Changes the status of a checked-out book to out
-                LibraryCollection.FoundBookID(tempBookPosition).setStatus("Out");
-                LoanCollection.addLoan(tempLoan);
-                continue;
             }
-            // Else we need to search to see if a loan exists
+            else
+            {
+                int tempPosition = LoanCollection.FoundLoanID(LoanCollection.getSize() - 1).getLoan_ID() + 1
+            }
+            time_t duedate;
+            time(&duedate);    // Gets current time
+            duedate += 864000; // Sets duedate for exactly 10 days from now
+            tempLoan.setLoan_ID(tempLoanID);
+            tempLoan.setBook_ID(tempInt2);
+            tempLoan.setPatron_ID(tempInt);
+            tempLoan.setDueDate(duedate);
+            tempLoan.setStatus("Normal");
+            tempLoan.setRecheck("False");
+            // Adds to the amount the patron has checked out
+            int tempBookNum = 0;
+            tempBookNum = PatronCollection.FoundPatronID(tempPatronPosition).getBooks() + 1;
+            Patron updatedPatron = PatronCollection.FoundPatronID(tempPatronPosition);
+            updatedPatron.setBooks(tempBookNum);
+            PatronCollection.editPatron(tempPatronPosition, updatedPatron);
+            // Changes the status of a checked-out book to out
+            Book updatedBook = LibraryCollection.FoundBookID(tempBookPosition);
+            updatedBook.setStatus("Out");
+            LibraryCollection.editBook(tempBookPosition, updatedBook);
+            // Finally adds the new loan
+            LoanCollection.addLoan(tempLoan);
         }
         else if (userInput == "in")
         {
