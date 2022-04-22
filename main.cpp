@@ -271,6 +271,7 @@ void WriteToLoansCSV(Loans &Collection)
 
 int main()
 {
+    cout << "CSCE 1040 HW3. Kieron Yin" << endl;
     // cout << "Hello World!" << endl; -> "Hello World" indeed my friend
     // Functions as library database
     Books LibraryCollection;
@@ -282,9 +283,23 @@ int main()
     Loans LoanCollection;
     WriteToLoansCSV(LoanCollection);
 
+    string userInput = "";
+    /*
+        Key:
+        b - adds new book
+        p - adds new patron
+        out - checks out a book
+        in - checks in a book
+        fines - to pay fines
+        over - print list of overdue books
+        q - quit
+    */
     // Creating the application loop
-    while (true)
+    while (userInput != "q")
     {
+        cout << "Welcome to the library interface, enter the following keys to continue..." << endl;
+        cout << "Enter 'b' or 'book' to add a book.\nEnter 'p' or 'patron' to add a new patron." << endl;
+
         break;
     }
     // We will pass in the reference simply as a way to free space when writing to the CSV's
