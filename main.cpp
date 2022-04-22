@@ -205,7 +205,7 @@ int main()
     }
     // We will pass in the reference simply as a way to free space when writing to the CSV's
     WriteToBooksCSV(LibraryCollection);
-    // WriteToPatronsCSV(PatronCollection);
+    WriteToPatronsCSV(PatronCollection);
     // WriteToLoansCSV(LoanCollection);
     return 0;
 }
