@@ -20,8 +20,8 @@
 #include "Loans/LoansCollection.h"
 #include "Loans/LoansObject.h"
 // Patron Includes
-#include "Loans/LoansCollection.h"
-#include "Loans/LoansObject.h"
+#include "Patrons/PatronsCollection.h"
+#include "Patrons/PatronsObject.h"
 // DataFiles Includes -> Learned that this causes an error if included here and called from fstreams, so don't do that
 // #include "DataFiles/Books.csv"
 // #include "DataFiles/Loans.csv"
@@ -85,6 +85,7 @@ void ReadFromBooksCSV(Books &Collection)
         status = toReadLines.substr(0, posOfDelim);
         tempBook.setStatus(status);
         Collection.addBook(tempBook);
+        // Reset delim
         posOfDelim = 0;
     }
 }
@@ -113,6 +114,76 @@ void WriteToBooksCSV(Books &Collection)
         Collection.deleteBook(0);
     }
 }
+void ReadFromPatronsCSV(Patrons &Collection)
+{
+    string fileName = "DataFiles/Patrons.csv";
+    // Vars to read in things
+    string toReadLines;
+    string name;
+    string temp; // Used to read in the ints and floats before type conversions
+    int id;
+    float fines;
+    int num_books_out;
+    int posOfDelim = 0;
+    Patron tempPatron;
+    ifstream file(fileName);
+    // Error handling
+    if (!file.is_open())
+    {
+        cout << "Error, Patrons.csv file failed to open...closing application." << endl;
+        exit(EXIT_FAILURE);
+    }
+    while (getline(file, toReadLines))
+    {
+        // For the name
+        posOfDelim = toReadLines.find(',');
+        name = toReadLines.substr(0, posOfDelim);
+        tempPatron.setName(name);
+        // For the id
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        id = stoi(temp);
+        tempPatron.setID(id);
+        // For the fines
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        fines = stof(temp);
+        tempPatron.setFines(fines);
+        // For the status
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        num_books_out = stoi(temp);
+        tempPatron.setBooks(num_books_out);
+        // Reset delim
+        posOfDelim = 0;
+    }
+}
+void WriteToPatronsCSV(Patrons &Collection)
+{
+    string fileName = "DataFiles/Patrons.csv";
+    // Vars to read in things
+    Patron tempPatron;
+    ofstream file(fileName);
+    // Error handling
+    if (!file.is_open())
+    {
+        cout << "Error, Patrons.csv file failed to open...closing application." << endl;
+        exit(EXIT_FAILURE);
+    }
+    while (Collection.getSize() > 0)
+    {
+        tempPatron = Collection.FoundPatronID(0);
+        file << tempPatron.getName() << ",";
+        file << tempPatron.getID() << ",";
+        file << tempPatron.getFines() << ",";
+        file << tempPatron.getBooks() << ",";
+        file << endl;
+        Collection.deletePatron(0);
+    }
+}
 
 int main()
 {
@@ -122,8 +193,8 @@ int main()
     // Functions to read in the library database from the Books.csv file
     ReadFromBooksCSV(LibraryCollection);
     LibraryCollection.printAllBooks();
-    // Patrons PatronCollection;
-    // ReadFromPatronsCSV(PatronCollection);
+    Patrons PatronCollection;
+    ReadFromPatronsCSV(PatronCollection);
     // Loans LoanCollection;
     // ReadFromLoanCollection(LoanCollection);
 

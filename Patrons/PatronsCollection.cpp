@@ -41,10 +41,6 @@ void Patrons::addPatron(Patron newPatron)
 {
     PatronCollection.push_back(newPatron);
 }
-void Patrons::addPatron(Patron newPatron)
-{
-    PatronCollection.push_back(newPatron);
-}
 void Patrons::editPatron(int PatronPosition, Patron newPatron)
 {
     PatronCollection.at(PatronPosition) = newPatron;
