@@ -199,6 +199,7 @@ void ReadFromLoansCSV(Loans &Collection)
     int patronID;
     time_t duedate;
     string status;
+    string recheck;
     int posOfDelim = 0;
     Loan tempLoan;
     ifstream file(fileName);
@@ -239,6 +240,11 @@ void ReadFromLoansCSV(Loans &Collection)
         posOfDelim = toReadLines.find(',');
         status = toReadLines.substr(0, posOfDelim);
         tempLoan.setStatus(status);
+        // For the recheck
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        recheck = toReadLines.substr(0, posOfDelim);
+        tempLoan.setRecheck(recheck);
         //  Reset delim
         Collection.addLoan(tempLoan);
         posOfDelim = 0;
@@ -264,6 +270,7 @@ void WriteToLoansCSV(Loans &Collection)
         file << tempLoan.getPatron_ID() << ",";
         file << tempLoan.getDueDate() << ",";
         file << tempLoan.getStatus() << ",";
+        file << tempLoan.getRecheck() << ",";
         file << endl;
         Collection.deleteLoan(0);
     }
@@ -302,6 +309,7 @@ int main()
     Loan tempLoan;
     string tempString;
     int tempInt;
+    int tempInt2;
     float tempFloat;
     while (userInput != "q")
     {
@@ -413,10 +421,66 @@ int main()
         }
         else if (userInput == "out")
         {
+            tempInt = 0;
+            tempInt2 = 0;
+            int tempPatronPosition = 0;
+            int tempBookPosition = 0;
             cout << "\nYou have decided to check out a book." << endl;
+            cout << "Here is the list of Patrons." << endl;
+            PatronCollection.printAllPatrons();
+            cout << "Enter the patron ID that would like to check out a book." << endl;
+            cin >> tempInt;
+            if (PatronCollection.findPatronID(tempInt) == -1)
+            {
+                cout << "This patron does not exist..." << endl;
+                continue;
+            }
+            tempPatronPosition = PatronCollection.findPatronID(tempInt);
+            // Ensures that the selected patron does not have too many books out
+            if (PatronCollection.FoundPatronID(tempPatronPosition).getBooks() > 5)
+            {
+                cout << "This patron has checked out too many books..." << endl;
+                continue;
+            }
             cout << "Here is the current library:" << endl;
             LibraryCollection.printAllBooks();
-            cout << "Enter the patron ID that would like to check out a book." << endl;
+            cout << "What is the book that " << PatronCollection.FoundPatronID(tempPatronPosition).getName() << " will check out?" << endl;
+            cin >> tempInt2;
+            if (LibraryCollection.findBookID(tempInt2) == -1)
+            {
+                cout << "That book does not exist..." << endl;
+                continue;
+            }
+            tempBookPosition = LibraryCollection.findBookID(tempInt2);
+            if (LibraryCollection.FoundBookID(tempBookPosition).getStatus() != "In")
+            {
+                cout << "This current book cannot be checked out..." << endl;
+                continue;
+            }
+            // Now we search in the loans collection to see if the patron has a overdue book
+            if (LoanCollection.getSize() == 0)
+            {
+                // Here there are no books checked out, can create a new loan
+                int tempLoanID = 0; // This will be the first loan
+                time_t duedate;
+                time(&duedate);    // Gets current time
+                duedate += 864000; // Sets duedate for exactly 10 days from now
+                tempLoan.setLoan_ID(tempLoanID);
+                tempLoan.setBook_ID(tempInt2);
+                tempLoan.setPatron_ID(tempInt);
+                tempLoan.setDueDate(duedate);
+                tempLoan.setStatus("Normal");
+                tempLoan.setRecheck("False");
+                // Adds to the amount the patron has checked out
+                int tempBookNum = 0;
+                tempBookNum = PatronCollection.FoundPatronID(tempPatronPosition).getBooks() + 1;
+                PatronCollection.FoundPatronID(tempPatronPosition).setBooks(tempBookNum);
+                // Changes the status of a checked-out book to out
+                LibraryCollection.FoundBookID(tempBookPosition).setStatus("Out");
+                LoanCollection.addLoan(tempLoan);
+                continue;
+            }
+            // Else we need to search to see if a loan exists
         }
         else if (userInput == "in")
         {
@@ -435,7 +499,7 @@ int main()
             cout << "\nYou have entered an invalid input, please try again..." << endl;
         }
 
-        break;
+        // break;
     }
     // We will pass in the reference simply as a way to free space when writing to the CSV's
     WriteToBooksCSV(LibraryCollection);
