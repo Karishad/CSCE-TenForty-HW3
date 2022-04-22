@@ -54,7 +54,7 @@ void Patrons::printOnePatron(int PatronPosition)
     cout << "Name: " << PatronCollection.at(PatronPosition).getName() << endl;
     cout << "ID: " << PatronCollection.at(PatronPosition).getID() << endl;
     cout << "Fines: $" << PatronCollection.at(PatronPosition).getFines() << endl;
-    cout << "Number of Patrons Out: " << PatronCollection.at(PatronPosition).getBooks() << endl;
+    cout << "Number of Books Out: " << PatronCollection.at(PatronPosition).getBooks() << endl;
 }
 void Patrons::printAllPatrons()
 {
@@ -67,7 +67,7 @@ void Patrons::printAllPatrons()
             cout << "Name: " << PatronCollection.at(i).getName() << endl;
             cout << "ID: " << PatronCollection.at(i).getID() << endl;
             cout << "Fines: $" << PatronCollection.at(i).getFines() << endl;
-            cout << "Number of Patrons Out: " << PatronCollection.at(i).getBooks() << endl;
+            cout << "Number of Books Out: " << PatronCollection.at(i).getBooks() << endl;
             cout << endl;
         }
     }
