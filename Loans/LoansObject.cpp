@@ -60,7 +60,7 @@ time_t Loan::getDueDate()
 {
     return DueDate;
 };
-void Loan::getStatus(string status)
+void Loan::setStatus(string status)
 {
     Status = status;
 }

@@ -32,7 +32,7 @@ public:
     int getPatron_ID();
     void setDueDate(time_t time);
     time_t getDueDate();
-    void getStatus(string status);
+    void setStatus(string status);
     string getStatus();
 
 private:

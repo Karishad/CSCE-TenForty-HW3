@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <ctime>
 
 // Book Includes
 #include "Books/BooksCollection.h"
@@ -29,6 +30,7 @@
 
 using namespace std;
 
+// Honestly I would have put these in a separate file...but oh well
 void ReadFromBooksCSV(Books &Collection)
 {
     string fileName = "DataFiles/Books.csv";
@@ -151,13 +153,14 @@ void ReadFromPatronsCSV(Patrons &Collection)
         temp = toReadLines.substr(0, posOfDelim);
         fines = stof(temp);
         tempPatron.setFines(fines);
-        // For the status
+        // For the number of books out
         toReadLines = toReadLines.substr(posOfDelim + 1);
         posOfDelim = toReadLines.find(',');
         temp = toReadLines.substr(0, posOfDelim);
         num_books_out = stoi(temp);
         tempPatron.setBooks(num_books_out);
         // Reset delim
+        Collection.addPatron(tempPatron);
         posOfDelim = 0;
     }
 }
@@ -184,6 +187,87 @@ void WriteToPatronsCSV(Patrons &Collection)
         Collection.deletePatron(0);
     }
 }
+void ReadFromLoansCSV(Loans &Collection)
+{
+    string fileName = "DataFiles/Loans.csv";
+    // Vars to read in things
+    string toReadLines;
+    string temp; // Used to read in the ints and floats before type conversions
+    int tempint; // Used for time_t conversion
+    int loanID;
+    int bookID;
+    int patronID;
+    time_t duedate;
+    string status;
+    int posOfDelim = 0;
+    Loan tempLoan;
+    ifstream file(fileName);
+    // Error handling
+    if (!file.is_open())
+    {
+        cout << "Error, Loans.csv file failed to open...closing application." << endl;
+        exit(EXIT_FAILURE);
+    }
+    while (getline(file, toReadLines))
+    {
+        // For the loanID
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        loanID = stoi(temp);
+        tempLoan.setLoan_ID(loanID);
+        // For the bookID
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        bookID = stoi(temp);
+        tempLoan.setBook_ID(bookID);
+        // For the patronID
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        patronID = stoi(temp);
+        tempLoan.setPatron_ID(patronID);
+        // For the duedate
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        temp = toReadLines.substr(0, posOfDelim);
+        tempint = stoi(temp);
+        duedate = tempint; // Time in seconds last unix
+        tempLoan.setDueDate(duedate);
+        // For the status
+        toReadLines = toReadLines.substr(posOfDelim + 1);
+        posOfDelim = toReadLines.find(',');
+        status = toReadLines.substr(0, posOfDelim);
+        tempLoan.setStatus(status);
+        //  Reset delim
+        Collection.addLoan(tempLoan);
+        posOfDelim = 0;
+    }
+}
+void WriteToLoansCSV(Loans &Collection)
+{
+    string fileName = "DataFiles/Loans.csv";
+    // Vars to read in things
+    Loan tempLoan;
+    ofstream file(fileName);
+    // Error handling
+    if (!file.is_open())
+    {
+        cout << "Error, Loans.csv file failed to open...closing application." << endl;
+        exit(EXIT_FAILURE);
+    }
+    while (Collection.getSize() > 0)
+    {
+        tempLoan = Collection.FoundLoanID(0);
+        file << tempLoan.getLoan_ID() << ",";
+        file << tempLoan.getBook_ID() << ",";
+        file << tempLoan.getPatron_ID() << ",";
+        file << tempLoan.getDueDate() << ",";
+        file << tempLoan.getStatus() << ",";
+        file << endl;
+        Collection.deleteLoan(0);
+    }
+}
 
 int main()
 {
@@ -192,11 +276,11 @@ int main()
     Books LibraryCollection;
     // Functions to read in the library database from the Books.csv file
     ReadFromBooksCSV(LibraryCollection);
-    LibraryCollection.printAllBooks();
+    // LibraryCollection.printAllBooks();
     Patrons PatronCollection;
     ReadFromPatronsCSV(PatronCollection);
-    // Loans LoanCollection;
-    // ReadFromLoanCollection(LoanCollection);
+    Loans LoanCollection;
+    WriteToLoansCSV(LoanCollection);
 
     // Creating the application loop
     while (true)
@@ -206,6 +290,6 @@ int main()
     // We will pass in the reference simply as a way to free space when writing to the CSV's
     WriteToBooksCSV(LibraryCollection);
     WriteToPatronsCSV(PatronCollection);
-    // WriteToLoansCSV(LoanCollection);
+    WriteToLoansCSV(LoanCollection);
     return 0;
 }
