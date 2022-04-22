@@ -56,6 +56,7 @@ void Loans::printOneLoan(int LoanPosition)
     cout << "Patron ID: " << LoanCollection.at(LoanPosition).getPatron_ID() << endl;
     cout << "Due Date: " << LoanCollection.at(LoanPosition).getDueDate() << endl;
     cout << "Status: " << LoanCollection.at(LoanPosition).getStatus() << endl;
+    cout << "Recheck: " << LoanCollection.at(LoanPosition).getRecheck() << endl;
 }
 void Loans::printAllLoans()
 {
@@ -70,6 +71,7 @@ void Loans::printAllLoans()
             cout << "Patron ID: " << LoanCollection.at(i).getPatron_ID() << endl;
             cout << "Due Date: " << LoanCollection.at(i).getDueDate() << endl;
             cout << "Status: " << LoanCollection.at(i).getStatus() << endl;
+            cout << "Recheck: " << LoanCollection.at(i).getRecheck() << endl;
         }
     }
 }

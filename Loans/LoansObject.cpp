@@ -16,17 +16,20 @@ Loan::Loan()
     Book_ID = 0;
     Patron_ID = 0;
     time_t DueIn2Weeks;
-    time(&DueIn2Weeks); // Sets DueIn2Weeks to current time
+    time(&DueIn2Weeks); // Currently set to current time
+    DueIn2Weeks += 864000;
     DueDate = DueIn2Weeks;
     Status = "";
+    Recheck = false;
 };
-Loan::Loan(int loan, int book, int patron, time_t time, string status)
+Loan::Loan(int loan, int book, int patron, time_t time, string status, string recheck)
 {
     Loan_ID = loan;
     Book_ID = book;
     Patron_ID = patron;
     DueDate = time;
     Status = status;
+    Recheck = recheck;
 };
 void Loan::setLoan_ID(int loan)
 {
@@ -67,4 +70,12 @@ void Loan::setStatus(string status)
 string Loan::getStatus()
 {
     return Status;
+}
+void Loan::setRecheck(string recheck)
+{
+    Recheck = recheck;
+}
+string Loan::getRecheck()
+{
+    return Recheck;
 }

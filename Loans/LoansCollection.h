@@ -31,6 +31,7 @@ public:
     void deleteLoan(int LoanPosition);             // Run findLoanID -> DO NOT RUN IF findLoanID == -1
     void printOneLoan(int LoanPostition);          // Run findLoanID -> DO NOT RUN IF findLoanID == -1
     void printAllLoans();
+    void checkStatus(); // Will go through and see if books are past duedate -> if true update status from 'Normal' to 'Overdue'
 
 private:
     vector<Loan> LoanCollection;

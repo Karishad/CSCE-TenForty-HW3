@@ -23,7 +23,7 @@ class Loan
 {
 public:
     Loan();
-    Loan(int loan, int book, int patron, time_t time, string status);
+    Loan(int loan, int book, int patron, time_t time, string status, string recheck);
     void setLoan_ID(int loan);
     int getLoan_ID();
     void setBook_ID(int book);
@@ -34,13 +34,16 @@ public:
     time_t getDueDate();
     void setStatus(string status);
     string getStatus();
+    void setRecheck(string recheck);
+    string getRecheck();
 
 private:
     int Loan_ID;
     int Book_ID; // Will be the Book.Library_ID
     int Patron_ID;
-    time_t DueDate; // Time and date 2 weeks
+    time_t DueDate; // Due date in 10 days
     string Status;  // Overdue/Normal
+    string Recheck; // True/False (True if rechecked one, false if not)
 };
 
 #endif
