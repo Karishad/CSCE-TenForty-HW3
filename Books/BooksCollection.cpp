@@ -56,6 +56,7 @@ void Books::printOneBook(int BookPosition)
     cout << "ISBN: " << BookCollection.at(BookPosition).getISBN() << endl;
     cout << "ID: " << BookCollection.at(BookPosition).getID() << endl;
     cout << "Cost: $" << BookCollection.at(BookPosition).getCost() << endl;
+    cout << "Status: " << BookCollection.at(BookPosition).getStatus() << endl;
 }
 void Books::printAllBooks()
 {
@@ -70,6 +71,7 @@ void Books::printAllBooks()
             cout << "ISBN: " << BookCollection.at(i).getISBN() << endl;
             cout << "ID: " << BookCollection.at(i).getID() << endl;
             cout << "Cost: $" << BookCollection.at(i).getCost() << endl;
+            cout << "Status: " << BookCollection.at(i).getStatus() << endl;
             cout << endl;
         }
     }
