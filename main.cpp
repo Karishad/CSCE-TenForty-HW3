@@ -639,7 +639,7 @@ int main()
                 time(&currentTime);
                 if (LoanCollection.FoundLoanID(i).getDueDate() < currentTime)
                 {
-                    cout << LibraryCollection.FoundBookID(LibraryCollection.findBookID(LoanCollection.FoundLoanID(i).getBook_ID())).getTitle() << " is overdue." << endl;
+                    cout << LibraryCollection.FoundBookID(LibraryCollection.findBookID(LoanCollection.FoundLoanID(i).getBook_ID())).getTitle() << " is overdue by " << PatronCollection.FoundPatronID(PatronCollection.findPatronID(LoanCollection.FoundLoanID(i).getPatron_ID())).getName() << endl;
                 }
             }
         }
