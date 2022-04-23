@@ -584,7 +584,44 @@ int main()
         }
         else if (userInput == "fine")
         {
+            //  Error handling
+            if (PatronCollection.getSize() == 0)
+            {
+                cout << "There are no patrons..." << endl;
+                continue;
+            }
+            tempInt = 0;
             cout << "\nYou have decided to pay a fine." << endl;
+            cout << "Here is the list of patrons." << endl;
+            PatronCollection.printAllPatrons();
+            cout << "Enter the ID of the patron that would like to pay a fine." << endl;
+            cin >> tempInt;
+            if (PatronCollection.findPatronID(tempInt) == -1)
+            {
+                cout << "There is no patron with that ID..." << endl;
+                continue;
+            }
+            // If no fines
+            int thePatronPosition = PatronCollection.findPatronID(tempInt);
+            if (PatronCollection.FoundPatronID(thePatronPosition).getFines() == 0)
+            {
+                cout << "This patron has no fines." << endl;
+                continue;
+            }
+            cout << "This patron has: $" << PatronCollection.FoundPatronID(thePatronPosition).getFines() << "  in fines." << endl;
+            int finePayAmount = 0;
+            cout << "How much would the patron like to pay?" << endl;
+            cin >> finePayAmount;
+            Patron PayingPatron = PatronCollection.FoundPatronID(thePatronPosition);
+            int PaymentAmount = PayingPatron.getFines();
+            if (finePayAmount >= PaymentAmount)
+                PayingPatron.setFines(0);
+            else
+            {
+                PaymentAmount -= finePayAmount;
+                PayingPatron.setFines(PaymentAmount);
+            }
+            PatronCollection.editPatron(thePatronPosition, PayingPatron);
         }
         else if (userInput == "over")
         {
