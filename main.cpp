@@ -13,6 +13,7 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include <math.h>
 
 // Book Includes
 #include "Books/BooksCollection.h"
@@ -278,7 +279,7 @@ void WriteToLoansCSV(Loans &Collection)
 
 int main()
 {
-    cout << "CSCE 1040 HW3. Kieron Yin" << endl;
+    cout << "CSCE 1040 HW3 - Kieron Yin" << endl;
     // cout << "Hello World!" << endl; -> "Hello World" indeed my friend
     // Functions as library database
     Books LibraryCollection;
@@ -287,7 +288,7 @@ int main()
     Patrons PatronCollection;
     ReadFromPatronsCSV(PatronCollection);
     Loans LoanCollection;
-    WriteToLoansCSV(LoanCollection);
+    ReadFromLoansCSV(LoanCollection);
 
     string userInput = "";
     /*
@@ -396,6 +397,11 @@ int main()
             }
             else
             {
+                if (LibraryCollection.FoundBookID(bookPosition).getStatus() != "In")
+                {
+                    cout << "This book cannot be removed since it is not 'In'" << endl;
+                    continue;
+                }
                 cout << LibraryCollection.FoundBookID(bookPosition).getTitle() << " has been removed." << endl;
                 LibraryCollection.deleteBook(bookPosition);
             }
@@ -512,16 +518,69 @@ int main()
                 cout << "This patron has no books checked out..." << endl;
                 continue;
             }
-            // Continue work here
+            int tempPatronID = PatronCollection.findPatronID(tempInt) + 1;
             int bookIDToGrab;
+            int bookPositionToGrab;
             vector<Book> BooksOfPatron;
             for (int i = 0; i < LoanCollection.getSize(); i++)
             {
+                bookIDToGrab = 0;
+                bookPositionToGrab = 0;
                 if (LoanCollection.FoundLoanID(i).getPatron_ID() == tempInt)
                 {
-                    cout << "I found one" << endl;
+                    bookIDToGrab = LoanCollection.FoundLoanID(i).getBook_ID();
+                    bookPositionToGrab = LibraryCollection.findBookID(bookIDToGrab);
+                    tempBook = LibraryCollection.FoundBookID(bookPositionToGrab);
+                    BooksOfPatron.push_back(tempBook);
                 }
             }
+            cout << "Here are the books that this patron has checked out." << endl;
+            for (int i = 0; i < BooksOfPatron.size(); i++)
+            {
+                cout << BooksOfPatron.at(i).getTitle() << " ID: " << BooksOfPatron.at(i).getID() << endl;
+            }
+            cout << "Enter the book ID to check in the book." << endl;
+            cin >> tempInt;
+            bool isFound = false;
+            for (int i = 0; i < BooksOfPatron.size(); i++)
+            {
+                if (BooksOfPatron.at(i).getID() == tempInt)
+                {
+                    isFound = true;
+                    // Check to see if any fines need to be applied
+                    int tempLoanIDCheckIn;
+                    for (int i = 0; i < LoanCollection.getSize(); i++)
+                    {
+                        // It has found the correct Loan
+                        if (LoanCollection.FoundLoanID(i).getPatron_ID() == tempPatronID && LoanCollection.FoundLoanID(i).getBook_ID() == tempInt)
+                        {
+                            // Check if any fines are needed
+                            time_t currentTime;
+                            time(&currentTime);
+                            // If overdue
+                            if (currentTime > LoanCollection.FoundLoanID(i).getDueDate())
+                            {
+                                float timeRemainder = currentTime - LoanCollection.FoundLoanID(i).getDueDate();
+                                tempFloat = ceil(timeRemainder / 86400) * 0.25; // Cost of a loan  in a 24 hour period
+                                Patron FinedPatron = PatronCollection.FoundPatronID(patronPosition);
+                                FinedPatron.setFines(tempFloat);
+                                PatronCollection.editPatron(patronPosition, FinedPatron);
+                            }
+                            bookPositionToGrab = LibraryCollection.findBookID(tempInt);
+                            Book FinedBook = LibraryCollection.FoundBookID(bookPositionToGrab);
+                            FinedBook.setStatus("In");
+                            LibraryCollection.editBook(bookPositionToGrab, FinedBook);
+                            Patron FinedPatron = PatronCollection.FoundPatronID(patronPosition);
+                            int newBookAmount = FinedPatron.getBooks() - 1;
+                            FinedPatron.setBooks(newBookAmount);
+                            PatronCollection.editPatron(patronPosition, FinedPatron);
+                            LoanCollection.deleteLoan(i);
+                        }
+                    }
+                }
+            }
+            if (isFound == false)
+                cout << "No book with that ID found..." << endl;
         }
         else if (userInput == "fine")
         {
