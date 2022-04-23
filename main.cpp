@@ -301,6 +301,7 @@ int main()
         in - checks in a book
         fines - to pay fines
         over - print list of overdue books
+        lost - reports a book as lost, adds fine to patron
         q - quit
         repeat if invalid input
     */
@@ -320,6 +321,7 @@ int main()
         cout << "Enter 'br' to remove a book.\nEnter 'pr' to remove a patron." << endl;
         cout << "Enter 'out' to check out a book.\nEnter 'in' to check in a book." << endl;
         cout << "Enter 'fine' to pay a fine.\nEnter 'over' to print a list of all overdue books." << endl;
+        cout << "Enter 'lost' to report a book as lost (It has to be checked out to a patron to be reported as lost)." << endl;
         cout << "Enter 'q' to quit." << endl;
         cin >> userInput;
         cout << "\nYou have entered: " << userInput << endl;
@@ -640,6 +642,45 @@ int main()
                     cout << LibraryCollection.FoundBookID(LibraryCollection.findBookID(LoanCollection.FoundLoanID(i).getBook_ID())).getTitle() << " is overdue." << endl;
                 }
             }
+        }
+        else if (userInput == "lost")
+        {
+            tempInt = 0;
+            cout << "\nYou have decided to mark a book as lost." << endl;
+            if (LoanCollection.getSize() == 0)
+            {
+                cout << "There are no books that can be marked as lost..." << endl;
+                continue;
+            }
+            cout << "Here are the list of books that can be marked as lost:" << endl;
+            for (int i = 0; i < LoanCollection.getSize(); i++)
+            {
+                cout << LibraryCollection.FoundBookID(LibraryCollection.findBookID(LoanCollection.FoundLoanID(i).getBook_ID())).getTitle() << " - ID: " << LoanCollection.FoundLoanID(i).getLoan_ID() << endl;
+            }
+            cout << "Select the book ID to report as lost." << endl; // Actually uses the loan ID but it is easier this way
+            cin >> tempInt;
+            if (LoanCollection.findLoanID(tempInt) == -1)
+            {
+                cout << "Invalid book ID, book could not be marked as lost..." << endl;
+                continue;
+            }
+            // Adds price of the book
+            tempBook = LibraryCollection.FoundBookID(LibraryCollection.findBookID(LoanCollection.FoundLoanID(LoanCollection.findLoanID(tempInt)).getBook_ID()));
+            int bookPriceToAdd = tempBook.getCost();
+            tempPatron = PatronCollection.FoundPatronID(PatronCollection.findPatronID(LoanCollection.FoundLoanID(LoanCollection.findLoanID(tempInt)).getPatron_ID()));
+            int addBookPriceToAddHere = tempPatron.getFines();
+            addBookPriceToAddHere += bookPriceToAdd;
+            tempPatron.setFines(addBookPriceToAddHere);
+            int amountOfBooksOut = tempPatron.getBooks();
+            amountOfBooksOut--;
+            tempPatron.setBooks(amountOfBooksOut);
+            int patronPosition = PatronCollection.findPatronID(tempPatron.getID());
+            PatronCollection.editPatron(patronPosition, tempPatron);
+            // Sets book as lost
+            tempBook.setStatus("Lost");
+            int bookPosition = LibraryCollection.findBookID(tempBook.getID());
+            LibraryCollection.editBook(bookPosition, tempBook);
+            LoanCollection.deleteLoan(tempInt);
         }
         else if (userInput != "q")
         {
