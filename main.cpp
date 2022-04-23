@@ -626,6 +626,20 @@ int main()
         else if (userInput == "over")
         {
             cout << "\nYou have decided to print a list of all overdue books." << endl;
+            if (LoanCollection.getSize() == 0)
+            {
+                cout << "There are no books checkedout..." << endl;
+                continue;
+            }
+            for (int i = 0; i < LoanCollection.getSize(); i++)
+            {
+                time_t currentTime;
+                time(&currentTime);
+                if (LoanCollection.FoundLoanID(i).getDueDate() < currentTime)
+                {
+                    cout << LibraryCollection.FoundBookID(LibraryCollection.findBookID(LoanCollection.FoundLoanID(i).getBook_ID())).getTitle() << " is overdue." << endl;
+                }
+            }
         }
         else if (userInput != "q")
         {
