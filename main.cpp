@@ -302,6 +302,7 @@ int main()
         fines - to pay fines
         over - print list of overdue books
         lost - reports a book as lost, adds fine to patron
+        recheck - allows a book to be recheck if it has not been rechecked already
         q - quit
         repeat if invalid input
     */
@@ -322,6 +323,7 @@ int main()
         cout << "Enter 'out' to check out a book.\nEnter 'in' to check in a book." << endl;
         cout << "Enter 'fine' to pay a fine.\nEnter 'over' to print a list of all overdue books." << endl;
         cout << "Enter 'lost' to report a book as lost (It has to be checked out to a patron to be reported as lost)." << endl;
+        cout << "Enter 'recheck' to recheck a book." << endl;
         cout << "Enter 'q' to quit." << endl;
         cin >> userInput;
         cout << "\nYou have entered: " << userInput << endl;
@@ -681,6 +683,43 @@ int main()
             int bookPosition = LibraryCollection.findBookID(tempBook.getID());
             LibraryCollection.editBook(bookPosition, tempBook);
             LoanCollection.deleteLoan(tempInt);
+        }
+        else if (userInput == "recheck")
+        {
+            tempInt = 0;
+            cout << "\nYou have decided to recheck a book." << endl;
+            if (LoanCollection.getSize() == 0)
+            {
+                cout << "There are no books to recheck..." << endl;
+                continue;
+            }
+            cout << "Here are all the checked out books." << endl;
+            LoanCollection.printAllLoans();
+            cout << "Enter a loan ID to recheck." << endl;
+            cin >> tempInt;
+            if (LoanCollection.findLoanID(tempInt) == -1)
+            {
+                cout << "That is an invalid loan..." << endl;
+                continue;
+            }
+            if (LoanCollection.FoundLoanID(LoanCollection.findLoanID(tempInt)).getRecheck() == "True")
+            {
+                cout << "This book has already been rechecked..." << endl;
+                continue;
+            }
+            time_t currentTime;
+            time(&currentTime);
+            if (LoanCollection.FoundLoanID(LoanCollection.findLoanID(tempInt)).getDueDate() < currentTime)
+            {
+                cout << "Cannot recheck, book is overdue." << endl;
+                tempLoan = LoanCollection.FoundLoanID(LoanCollection.findLoanID(tempInt));
+                tempLoan.setStatus("Overdue");
+                LoanCollection.editLoan(LoanCollection.findLoanID(tempInt), tempLoan);
+            }
+            tempLoan = LoanCollection.FoundLoanID(LoanCollection.findLoanID(tempInt));
+            currentTime += 864000; // Adds 10 days
+            tempLoan.setDueDate(currentTime);
+            LoanCollection.editLoan(LoanCollection.findLoanID(tempInt), tempLoan);
         }
         else if (userInput != "q")
         {
